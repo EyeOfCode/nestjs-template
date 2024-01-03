@@ -1,16 +1,16 @@
-FROM node:20.7.0 AS BUILDER
+FROM node:20.7.0
 
 WORKDIR /app
 
-COPY package.json .
-COPY package-lock.json .
+COPY package*.json .
 
 COPY . .
 
+RUN npm ci
 RUN npm run build
-RUN npm rebuild bcrypt --build-from-source
 
-FROM node:20.7.0
+COPY ./dist ./
+COPY .env.docker ./.env
 
-COPY --from=BUILDER ./node_modules ./node_modules
-COPY --from=BUILDER ./dist ./
+CMD node ./src/main.js
+EXPOSE 8000

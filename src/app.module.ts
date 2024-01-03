@@ -12,6 +12,7 @@ import AppConfig from 'config/app.config';
 import DbConfig from 'config/database.config';
 import ThrottlerConfig from 'config/throttler.config';
 import AuthConfig from 'config/auth.config';
+import { User } from './users/entities/user.entity';
 
 @Module({
   imports: [
@@ -37,13 +38,11 @@ import AuthConfig from 'config/auth.config';
           port: config.get('db').DB_PORT,
           password: config.get('db').DB_PASS,
           username: config.get('db').DB_USER,
-          entities: [__dirname + '/../**/*.entity.{js,ts}'],
+          // docker can't use join(__dirname, '**', '*.entity.{ts,js}')
+          entities: [User],
           database: config.get('db').DB_NAME,
           synchronize: true,
           logging: true,
-          extra: {
-            charset: 'utf8mb4_unicode_ci',
-          },
         };
       },
       inject: [ConfigService],

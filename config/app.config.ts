@@ -17,7 +17,7 @@ export default registerAs('app', async (): Promise<AppConfig> => {
       value: process.env.NODE_ENV,
       joi: Joi.string()
         .required()
-        .valid('development', 'production', 'staging', 'test')
+        .valid('development', 'production', 'staging', 'docker')
         .default('development'),
     },
     PORT: {
